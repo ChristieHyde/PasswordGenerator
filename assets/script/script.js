@@ -21,5 +21,29 @@ var upperCasedCharacters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K
 
 // Student Code
 function generatePassword() {
-    return;
+    // Prompt the user to confirm the inclusion of the four character types
+    var includeLower = window.confirm("Should the password contain lowercase letters?");
+    var includeUpper = window.confirm("Should the password contain uppercase letters?");
+    var includeNumber = window.confirm("Should the password contain numbers?");
+    var includeSpecial = window.confirm("Should the password contain special characters?");
+
+    // If none of the character types are selected, fail the password generation
+    if (!includeLower && !includeUpper && !includeNumber && !includeSpecial) {
+        window.alert("Password generation failed. Please include at least one type of character");
+        return;
+    }
+
+    // Prompt the user to confirm the length of the password
+    var passwordLength = 0;
+    while ((typeof(passwordLength) !== "number") || isNaN(passwordLength) || (passwordLength < 8) || (passwordLength > 128)) {
+        passwordLength = parseInt(window.prompt("Please enter the length of the password as a number between 8 and 128 inclusive:"));
+        console.log(passwordLength);
+        console.log(typeof(passwordLength) !== "number");
+        console.log(passwordLength === NaN);
+        console.log(passwordLength < 8);
+        console.log(passwordLength > 128);
+    }
+    console.log(passwordLength);
+
+    return "done";
 }
