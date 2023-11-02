@@ -14,10 +14,10 @@ function writePassword() {
 generateBtn.addEventListener("click", writePassword);
 
 // Array of characters to be included in password
-var numericCharacters = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-var specialCharacters = ['@', '%', '+', '\\', '/', "'", '!', '#', '$', '^', '?', ':', ',', ')', '(', '}', '{', ']', '[', '~', '-', '_', '.'];
 var lowerCasedCharacters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
 var upperCasedCharacters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+var numericCharacters = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+var specialCharacters = ['@', '%', '+', '\\', '/', "'", '!', '#', '$', '^', '?', ':', ',', ')', '(', '}', '{', ']', '[', '~', '-', '_', '.'];
 
 // Student Code
 function generatePassword() {
@@ -37,13 +37,35 @@ function generatePassword() {
     var passwordLength = 0;
     while ((typeof(passwordLength) !== "number") || isNaN(passwordLength) || (passwordLength < 8) || (passwordLength > 128)) {
         passwordLength = parseInt(window.prompt("Please enter the length of the password as a number between 8 and 128 inclusive:"));
-        console.log(passwordLength);
-        console.log(typeof(passwordLength) !== "number");
-        console.log(passwordLength === NaN);
-        console.log(passwordLength < 8);
-        console.log(passwordLength > 128);
     }
-    console.log(passwordLength);
 
-    return "done";
+    // Collate the pool of available characters to use in the password
+    var characterPool = [];
+    if (includeLower) {
+        characterPool = characterPool.concat(lowerCasedCharacters)
+    }
+    if (includeUpper) {
+        characterPool = characterPool.concat(upperCasedCharacters)
+    }
+    if (includeNumber) {
+        characterPool = characterPool.concat(numericCharacters)
+    }
+    if (includeSpecial) {
+        characterPool = characterPool.concat(specialCharacters)
+    }
+
+    // Build password from available characters
+    var password = ""
+    for (var i = 0; i < passwordLength; i++) {
+        nextCharacter = selectCharacter(characterPool);
+        password = password.concat(nextCharacter);
+    }
+
+    return password;
+}
+
+// Select a random character from the available pool
+function selectCharacter(pool) {
+    var x = Math.floor(Math.random() * pool.length);
+    return pool[x];
 }
